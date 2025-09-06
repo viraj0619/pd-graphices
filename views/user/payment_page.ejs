@@ -1,0 +1,51 @@
+<!-- Razorpay Checkout -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+function startPayment() {
+    const options = {
+        "key": "rzp_test_c247QIGI9NhNmg", // 🔑 Replace with LIVE key
+        "amount": "<%= amount * 100 %>",  
+        "currency": "INR",
+        "name": "PD GRAPHICS & DESIGNS",
+        "description": "Order Payment",
+        "image": "/user/images/pd_logo.png",
+
+        "prefill": {
+            "name": "<%= orderDetails.first_name %> <%= orderDetails.last_name %>",
+            "email": "<%= orderDetails.user_email %>",
+            "contact": "<%= orderDetails.user_mobile %>"
+        },
+
+        "theme": { "color": "#000000" },
+
+        // ✅ On successful payment
+        "handler": function (response) {
+            document.getElementById("razorpay_payment_id").value = response.razorpay_payment_id;
+            document.getElementById("savePaymentForm").submit();
+        }
+    };
+
+    const rzp1 = new Razorpay(options);
+    rzp1.open();
+}
+window.onload = startPayment;
+</script>
+
+<!-- ✅ Hidden Form -->
+<form id="savePaymentForm" action="/save_payment/<%= transaction_id %>" method="POST">
+  <input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id">
+
+  <!-- User Details -->
+  <input type="hidden" name="user_id" value="<%= orderDetails.user_id %>">
+  <input type="hidden" name="first_name" value="<%= orderDetails.first_name %>">
+  <input type="hidden" name="last_name" value="<%= orderDetails.last_name %>">
+  <input type="hidden" name="user_email" value="<%= orderDetails.user_email %>">
+  <input type="hidden" name="user_mobile" value="<%= orderDetails.user_mobile %>">
+  <input type="hidden" name="country" value="<%= orderDetails.country %>">
+  <input type="hidden" name="state" value="<%= orderDetails.state %>">
+  <input type="hidden" name="district" value="<%= orderDetails.district %>">
+  <input type="hidden" name="file_id" value="<%=orderDetails.file_id%>">
+  <input type="hidden" name="qty" value="<%=orderDetails.qty%>">
+
+</form>

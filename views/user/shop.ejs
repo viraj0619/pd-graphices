@@ -1,0 +1,139 @@
+<%-include('navbar.ejs')%>
+<div class="container my-4">
+  <div class="filter-box row align-items-center gy-2">
+    
+    <!-- Results Count -->
+    <div class="col-12 col-md-auto">
+      <p class="mb-2 mb-md-0">
+        Showing <strong><%= filesData.length %></strong> results
+      </p>
+    </div>
+
+    <!-- Controls -->
+    <div class="col-12 col-md d-flex flex-wrap align-items-center justify-content-md-end gap-2 gap-md-3">
+      
+      <!-- Sort -->
+      <div class="flex-grow-1 flex-sm-grow-0">
+        <label for="sort" style="float: left;" class="me-1 small">Sort:</label>
+        <select id="sort" class="form-select form-select-sm w-100 w-sm-auto">
+          <option value="latest">Sort by latest</option>
+          <option value="low">Sort by price: Low to High</option>
+          <option value="high">Sort by price: High to Low</option>
+        </select>
+      </div>
+      
+      <!-- Items per page -->
+      <div class="flex-grow-1 flex-sm-grow-0">
+        <label for="items" class="me-1 small">Show:</label>
+        <select id="items" class="form-select form-select-sm w-100 w-sm-auto">
+          <option value="20">20 Items</option>
+          <option value="40">40 Items</option>
+          <option value="60">60 Items</option>
+        </select>
+      </div>
+      
+      <!-- View toggle (hidden on xs) -->
+      <div class="view-toggle d-none d-md-flex">
+        <button class="active btn btn-light btn-sm"><i class="bi bi-grid"></i></button>
+        <button class="btn btn-light btn-sm"><i class="bi bi-list"></i></button>
+      </div>
+      
+      <!-- Filter button -->
+      <div class="flex-grow-1 flex-sm-grow-0">
+        <button class="filter-btn btn btn-outline-primary btn-sm w-100 w-sm-auto">
+          <i class="bi bi-funnel me-1"></i> Filter
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- Product Cards -->
+<div class="container text-center position-relative mb-5 mt-5">
+  <h2 class="mb-4 text-dark fw-bold">All Categories</h2>
+  <div class="row g-4" id="product-list">
+    <% for(let card = 0; card < filesData.length; card++){ %>
+      <!-- same card design as your code -->
+      <div class="col-md-3 col-sm-6 mt-5 product-card" 
+           data-price="<%= filesData[card].final_price %>" 
+           data-date="<%= filesData[card].file_id %>">
+        <div class="card-wrapper position-relative bg-white shadow-lg rounded-4">
+          <div class="ribbon"><%= filesData[card].file_dis %>% OFF</div>
+          <div class="badge-number">#00<%= filesData[card].file_id %></div>
+          <a href="/process_card/<%= filesData[card].file_id %>">
+            <div class="card-image">
+              <img src="/admin/uploads/<%= filesData[card].file_img %>">
+            </div>
+          </a>
+          <div class="card-body">
+            <div class="card-title">
+              <%= filesData[card].design_name %> #00<%= filesData[card].file_id %>
+            </div>
+            <div class="price-section">
+              <span class="old-price">₹<%= filesData[card].file_price %>.00</span>
+              <span class="new-price">₹<%= filesData[card].final_price %>.00</span>
+            </div>
+            <div class="status <%= filesData[card].stock === 'instock' ? 'text-success' : 'text-danger' %>">
+              <%= filesData[card].stock === 'instock' ? 'In Stock' : 'Out of Stock' %>
+            </div>
+            <div class="card-icons">
+              <div class="icon-group">
+                <i class="bi bi-eye-fill"></i> <span><%= filesData[card].file_view %></span>
+                <i class="bi bi-download"></i> <span><%= filesData[card].file_perchesed %></span>
+              </div>
+              <div class="icon-action">
+                <a href="/process_card/<%= filesData[card].file_id %>">
+                  <i class="bi bi-cart-fill" data-bs-toggle="tooltip" title="Add to Cart"></i>
+                </a>
+              </div>
+              <div class="dropdown text-warning">
+                <i class="bi bi-share-fill" data-bs-toggle="dropdown" aria-expanded="false" style="cursor:pointer;"></i>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#" onclick="copyLink('<%= filesData[card].file_id %>')"><i class="bi bi-link-45deg"></i> Copy Link</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<!-- Pagination -->
+<div class="container d-flex justify-content-center my-4">
+  <nav>
+    <ul class="pagination">
+      <% for(let i = 1; i <= totalPages; i++) { %>
+        <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+          <a class="page-link" href="/shop?page=<%= i %>"><%= i %></a>
+        </li>
+      <% } %>
+    </ul>
+  </nav>
+</div>
+
+<%-include('footer.ejs')%>        
+
+<!-- Filter Script -->
+<script>
+document.getElementById("sort").addEventListener("change", function() {
+  let sortValue = this.value;
+  let products = Array.from(document.querySelectorAll(".product-card"));
+  let container = document.getElementById("product-list");
+
+  if (sortValue === "low") {
+    products.sort((a, b) => a.dataset.price - b.dataset.price);
+  } else if (sortValue === "high") {
+    products.sort((a, b) => b.dataset.price - a.dataset.price);
+  } else {
+    products.sort((a, b) => b.dataset.date - a.dataset.date);
+  }
+
+  container.innerHTML = "";
+  products.forEach(p => container.appendChild(p));
+});
+</script>

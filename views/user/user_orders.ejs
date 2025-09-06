@@ -1,0 +1,60 @@
+<%- include("navbar.ejs") %>
+
+<div class="orders-page">
+  <div class="container">
+    <h2 class="orders-title">My Orders History</h2>
+
+    <% for(var i=0; i < orderData.length; i++){ %>
+    <div class="order-card row align-items-center mb-3 p-3 border rounded bg-white">
+      <div class="col-md-4 design-info d-flex align-items-center">
+       <a href="/process_card/<%= orderData[i].file_id %>"> <img src="admin/uploads/<%=orderData[i].file_img%>" 
+             alt="Design" 
+             class="img-fluid rounded me-3" 
+             style="width:80px;height:80px;object-fit:cover;">
+             </a>
+        <div>
+          <div class="design-title fw-bold">
+            <%=orderData[i].design_name%> 
+            x <strong><%=orderData[i].qty%></strong>
+          </div>
+          <small class="text-muted">
+            Order ID: #OID0<%=orderData[i].order_id%> | <%=orderData[i].order_date%>
+          </small>
+        </div>
+      </div>
+
+      <div class="col-md-2 fw-bold">₹<%=orderData[i].total_price%></div>
+
+      <div class="col-md-2">
+        <span class="badge bg-success">Paid (Online)</span>
+      </div>
+
+      <div class="col-md-4 text-md-end mt-3 mt-md-0 text-center">
+        <% if(orderData[i].download_count > 0){ %>
+          <!-- ✅ Download allowed -->
+          <a href="/download_file/<%= orderData[i].order_id %>" 
+             class="btn btn-sm btn-outline-primary me-2">
+            <i class="bi bi-download"></i> Download
+          </a>
+        <% } else { %>
+          <!-- ❌ Limit over -->
+          <button class="btn btn-sm btn-outline-danger me-2" disabled>
+            <i class="bi bi-x-circle"></i> Qty Over
+          </button>
+          <a href="/process_card/<%= orderData[i].file_id %>" 
+             class="btn btn-sm btn-outline-success">
+            <i class="bi bi-cart"></i> Re-Purchase
+          </a>
+        <% } %>
+
+        <a href="/invoice_order/<%=orderData[i].transaction_id%>" 
+           class="btn btn-sm btn-outline-dark open-invoice">
+          <i class="bi bi-file-earmark-text"></i> Invoice
+        </a>
+      </div>
+    </div>
+    <% } %>
+  </div>
+</div>
+
+<%- include("footer.ejs") %>

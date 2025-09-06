@@ -1,0 +1,14 @@
+<h3>Search Results for "<%= keyword %>"</h3>
+
+<% if (results.length > 0) { %>
+  <ul>
+    <% results.forEach(item => { %>
+      <li>
+        <strong><%= item.design_name %></strong> - 
+        <%= item.categories %>
+      </li>
+    <% }) %>
+  </ul>
+<% } else { %>
+  <p>No results found.</p>
+<% } %>

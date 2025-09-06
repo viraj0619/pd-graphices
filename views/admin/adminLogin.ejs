@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body{
+      margin: 0px;
+      padding: 0px;
+    }
+    .alert {
+      padding: 12px 20px;
+      margin-bottom: 15px;
+      font-size: 15px;
+      transition: opacity 0.5s ease-in-out;
+    }
+    .alert-success {
+      background: #d1f7d6;
+      color: #0f5132;
+      border-left: 6px solid #198754;
+    }
+    .alert-danger {
+      background: #f8d7da;
+      color: #842029;
+      border-left: 6px solid #dc3545;
+    }
+
+
+    /* Admin Login Container */
+    .admin-login-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 95vh;
+      background: linear-gradient(135deg, #89f7fe, #66a6ff);
+      backdrop-filter: blur(10px);
+      padding: 15px;
+    }
+
+    /* Smaller & Responsive Login Box */
+    .admin-login-content {
+      width: 320px;
+      max-width: 95%;
+      padding: 30px 25px;
+      background: #dde1e7;
+      border-radius: 15px;
+      box-shadow: -3px -3px 7px #ffffff73, 2px 2px 5px rgba(94, 104, 121, 0.288);
+      text-align: center;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .admin-login-logo {
+      margin-bottom: 15px;
+    }
+    .admin-login-logo img {
+      width: 60px;
+      margin-bottom: 8px;
+    }
+    .admin-login-logo h2 {
+      color: #595959;
+      font-weight: 600;
+      font-size: 22px;
+    }
+
+    /* Input Fields */
+    .admin-login-field {
+      height: 45px;
+      width: 100%;
+      display: flex;
+      position: relative;
+      margin-top: 18px;
+    }
+    .admin-login-input {
+      height: 100%;
+      width: 100%;
+      padding-left: 42px;
+      border: none;
+      outline: none;
+      font-size: 15px;
+      background: #dde1e7;
+      color: #595959;
+      border-radius: 25px;
+      box-shadow: inset 2px 2px 5px #BABECC, inset -5px -5px 10px #ffffff73;
+    }
+    .admin-login-span {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      color: #666;
+    }
+    .admin-login-label {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 45px;
+      pointer-events: none;
+      color: #666;
+      transition: 0.3s;
+    }
+    .admin-login-input:focus ~ .admin-login-label,
+    .admin-login-input:valid ~ .admin-login-label {
+      opacity: 0;
+    }
+
+    .admin-login-password .admin-toggle-password {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #666;
+      font-size: 16px;
+    }
+
+    /* Buttons */
+    .admin-login-btn {
+      margin: 20px 0 10px 0;
+      width: 100%;
+      height: 45px;
+      font-size: 15px;
+      font-weight: 600;
+      background: linear-gradient(135deg, #66a6ff, #89f7fe);
+      border-radius: 25px;
+      border: none;
+      cursor: pointer;
+      color: #fff;
+      transition: 0.3s;
+    }
+    .admin-login-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+
+    .admin-login-google {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 10px;
+      width: 100%;
+      height: 42px;
+      border-radius: 25px;
+      border: none;
+      cursor: pointer;
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      font-size: 14px;
+    }
+    .admin-login-google img {
+      width: 18px;
+    }
+
+    /* Divider */
+    .admin-login-divider {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin: 12px 0;
+    }
+    .admin-login-divider span {
+      flex: 1;
+      height: 1px;
+      background: #bbb;
+      margin: 0 8px;
+    }
+    .admin-login-divider::before, 
+    .admin-login-divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #bbb;
+    }
+
+    /* Small Devices */
+    @media (max-width: 480px) {
+      .admin-login-content {
+        width: 95%;
+        padding: 25px 20px;
+      }
+      .admin-login-logo h2 {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body class="bg-light d-flex justify-content-center align-items-center vh-100">
+<!-- Admin Login Page -->
+<div class="admin-login-container">
+  <div class="admin-login-content">
+    <div class="admin-login-logo">
+      <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Admin" />
+      <h2>Admin Panel</h2>
+    </div>
+
+    <!-- ✅ Message Box -->
+    <% if (typeof message !== 'undefined') { %>
+      <div id="loginMessage" 
+           class="alert alert-<%= type %> text-center fw-bold shadow-sm fade show"
+           role="alert"
+           style="border-radius: 10px; font-size: 14px;">
+        <%= message %>
+      </div>
+    <% } %>
+
+    <form action="/admin/processAdmin_login" method="POST" enctype="multipart/form-data">
+      <div class="admin-login-field">
+        <input required type="text" name="email_or_phone" class="admin-login-input">
+        <span class="admin-login-span"><i class="bi bi-person"></i></span>
+        <label class="admin-login-label">Email or Phone</label>
+      </div>
+      <div class="admin-login-field admin-login-password">
+        <input required type="password" name="admin_password" class="admin-login-input" id="admin-password">
+        <span class="admin-login-span"><i class="bi bi-lock"></i></span>
+        <label class="admin-login-label">Password</label>
+        <i class="bi bi-eye-slash admin-toggle-password" id="admin-toggle-icon" onclick="togglePassword()"></i>
+      </div>
+      <div class="forgot-pass" style="margin-top:10px; text-align:right;">
+        <a href="#">Forgot Password?</a>
+      </div>
+      <button class="admin-login-btn">Sign In</button>
+      <div class="admin-login-divider"><span>or</span></div>
+      <button type="button" class="admin-login-google">
+        <img src="https://www.svgrepo.com/show/355037/google.svg" alt="Google" />
+        Login with Google
+      </button>
+    </form>
+  </div>
+</div>
+
+<script>
+  // ✅ Auto-hide message after 3 seconds with fade-out
+  setTimeout(() => {
+    const msg = document.getElementById("loginMessage");
+    if (msg) {
+      msg.classList.remove("show");
+      msg.classList.add("fade");
+      setTimeout(() => msg.remove(), 300);
+    }
+  }, 3000);
+
+  <% if (type === 'success' && redirectTo) { %>
+    setTimeout(() => {
+      window.location.href = "<%= redirectTo %>";
+    }, 3000); 
+  <% } %>
+
+  // ✅ Toggle Password
+  function togglePassword() {
+    const passwordField = document.getElementById("admin-password");
+    const toggleIcon = document.getElementById("admin-toggle-icon");
+    if (passwordField.type === "password") {
+      passwordField.type = "text";
+      toggleIcon.classList.remove("bi-eye-slash");
+      toggleIcon.classList.add("bi-eye");
+    } else {
+      passwordField.type = "password";
+      toggleIcon.classList.remove("bi-eye");
+      toggleIcon.classList.add("bi-eye-slash");
+    }
+  }
+</script>
+
+</body>
+</html>

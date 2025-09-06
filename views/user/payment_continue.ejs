@@ -1,0 +1,95 @@
+<%- include('navbar.ejs') %>
+
+<div class="container">
+  <div class="row text-dark">
+    <form action="/payment_process" method="post" id="paymentForm" onsubmit="return handleSubmit()">
+      <% for (let key in formdata) { %>
+        <input type="hidden" name="<%= key %>" value="<%= formdata[key] %>">
+      <% } %>
+      <div class="col-md-12 text-dark heading">
+        <h3>Payment Mode</h3>
+      </div>
+      <div class="form-group m-2">
+        <label for="payment_mode">Select Payment Mode</label>
+        <select name="payment_mode" id="payment_mode" class="form-control text-center">
+          <option value="" selected>---Select---</option>
+          <option value="cash">Cash</option>
+          <option value="online">Online</option>
+        </select>
+      </div>
+      <input type="hidden" name="dateTime" id="dateTime">
+      <input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id">
+      <input type="hidden" name="transactionDateTime" id="transactionDateTime">
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<%- include('footer.ejs') %>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+  function handleSubmit() {
+    const paymentMode = document.getElementById('payment_mode').value;
+    
+    if (paymentMode === 'cash') {
+      const now = new Date();
+      const formattedDateTime = now.toLocaleString('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      }).replace(',', '');
+      document.getElementById('dateTime').value = formattedDateTime;
+      return true; 
+    } 
+    
+    if (paymentMode === 'online') {
+      const form = document.getElementById('paymentForm');
+      const formData = new FormData(form);
+  
+      const options = {
+        "key": "rzp_test_Fsww3UGPSxLMLD",
+        "amount": "50000", 
+        "currency": "INR",
+        "name": "Greenlands School",
+        "description": "Payment Placed",
+        "image": "/user/uploads/<%=social_info.main_logo%>",
+        "callback_url": "http://localhost:1001/razorpay/callback",
+        "prefill": {
+          "name": "<%=userName.std_username%>",
+          "email": "<%=userName.std_email%>",
+          "contact": "<%=userName.std_mobile%>"
+        },
+        "notes": {
+          "address": "Razorpay Corporate Office"
+        },
+        "theme": {
+          "color": "#3399cc"
+        },
+        "handler": function (response) {
+          const transactionDateTime = new Date().toLocaleString('en-GB', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+
+          document.getElementById('razorpay_payment_id').value = response.razorpay_payment_id;
+          document.getElementById('transactionDateTime').value = transactionDateTime;
+
+          form.submit();
+        }
+      };
+      
+      const rzp1 = new Razorpay(options);
+      rzp1.open();
+      return false; 
+    }
+  }
+</script>

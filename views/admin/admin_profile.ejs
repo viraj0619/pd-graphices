@@ -1,0 +1,137 @@
+<%- include('navbar.ejs') %>
+
+<style>
+  .profile-img-container {
+    position: relative;
+    display: inline-block;
+  }
+
+  .profile-img-container img {
+    border-radius: 50%;
+    object-fit: cover;
+    width: 150px;
+    height: 150px;
+  }
+
+  .profile-img-actions {
+    position: absolute;
+    top: 8px;
+    /* right: -4px; */
+    /* right: -4px !important; */
+    margin-left: 25px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .profile-img-container:hover .profile-img-actions {
+    opacity: 1;
+  }
+
+  .profile-img-actions a {
+    margin-left: 5px;
+  }
+</style>
+
+<div class="profile-card">
+  <div class="profile-header text-center">
+
+    <!-- Profile Image with Hover Icons -->
+   <!-- Profile Image with Hover Icons -->
+<div class="profile-img-container mt-5">
+  <img id="adminDpImage"
+       src="<%= profile_data.admin_dp ? '/admin/uploads/' + profile_data.admin_dp : '/user/images/profile-image.png' %>" 
+       alt="Admin">
+
+  <div class="profile-img-actions">
+    <!-- Trigger file input -->
+    <label for="dpUpload" class="btn btn-sm btn-primary" title="Edit Image" style="cursor:pointer;">
+      <i class="bi bi-pencil-square"></i>
+    </label>
+
+    <button class="btn btn-sm btn-danger" title="Delete Image" onclick="deleteImage()">
+      <i class="bi bi-trash-fill"></i>
+    </button>
+  </div>
+
+  <!-- Hidden file input -->
+  <form id="dpUploadForm" enctype="multipart/form-data">
+    <input type="file" name="admin_dp" id="dpUpload" accept="image/*" style="display:none;" onchange="uploadDp()">
+  </form>
+</div>
+
+
+    <h2 class="mt-3">Admin <%= profile_data.admin_name %></h2>
+    <p><%= profile_data.admin_bio %></p>
+
+    <!-- Edit Profile Button -->
+    <a href="/admin/edit_adminProfile" class="btn btn-edit mt-2">
+      <i class="bi bi-pencil-square me-2"></i>Edit Profile
+    </a>
+  </div>
+
+  <div class="profile-body">
+    <div class="row">
+      <div class="col-md-6 info-item">
+        <h5><i class="bi bi-envelope-fill"></i> Email</h5>
+        <p><%= profile_data.admin_email %></p>
+      </div>
+      <div class="col-md-6 info-item">
+        <h5><i class="bi bi-telephone-fill"></i> Phone</h5>
+        <p>+91 <%= profile_data.admin_mobile %></p>
+      </div>
+      <div class="col-md-6 info-item">
+        <a href="/admin/change_admin_pass">
+          <h5><i class="bi bi-lock-fill"></i> Change Password</h5>
+        </a>
+      </div>
+      <div class="col-md-6 info-item">
+        <h5><i class="bi bi-person-badge-fill"></i> Address</h5>
+        <p><%= profile_data.admin_address %></p>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function uploadDp() {
+    const form = document.getElementById("dpUploadForm");
+    const formData = new FormData(form);
+
+    fetch("/admin/update_admin_dp", {
+      method: "POST",
+      body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        // Update image without reload
+        document.getElementById("adminDpImage").src = "/admin/uploads/" + data.filename + "?t=" + new Date().getTime();
+        alert("Profile photo updated!");
+      } else {
+        alert("Upload failed: " + data.message);
+      }
+    })
+    .catch(err => {
+      alert("Upload error!");
+      console.error(err);
+    });
+  }
+
+  function deleteImage() {
+    if (confirm("Are you sure you want to delete your profile image?")) {
+      fetch("/admin/delete_admin_dp", {
+        method: "POST"
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          document.getElementById("adminDpImage").src = "https://i.ibb.co/vXqDmnh/profile-avatar.png";
+          alert("Profile photo deleted!");
+        } else {
+          alert("Delete failed: " + data.message);
+        }
+      });
+    }
+  }
+</script>
+
+<%- include('footer.ejs') %>

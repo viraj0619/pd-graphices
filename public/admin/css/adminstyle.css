@@ -1,0 +1,403 @@
+
+/* ----------company information------------ */
+  .form-group{
+    margin-top: 10px;
+  }
+  .form-group .form-page {
+    padding: 80px 20px 50px; /* Top padding to push below navbar */
+    min-height: 100vh;
+    box-sizing: border-box;
+  }
+
+  .form-group .container {
+    max-width: 1000px;
+    margin: auto;
+  }
+
+  .form-group .form-wrapper {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .form-group .form-wrapper h2 {
+    text-align: center;
+    color: #ffd700;
+    margin-bottom: 30px;
+    font-size: 28px;
+    font-weight: 700;
+  }
+
+  .form-group form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+
+  .form-group .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-group label {
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+ .form-group textarea, select,
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="url"],
+  input[type="file"],
+  input[type="number"],
+  input[type="password"] {
+
+    padding: 12px 15px;
+    border: none;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.6);
+    color: #111;
+    font-size: 15px;
+    outline: none;
+    transition: 0.3s;
+  }
+
+  .form-group input[type="file"] {
+    background-color: transparent;
+    border: 1px dashed #aaa;
+    color: #111;
+    width: 60%;
+    float: left;
+  }
+
+  .form-group input:focus{
+    border: 2px solid #ffd700;
+    background: rgba(255, 255, 255, 0.8);
+  }
+  .form-group textarea:focus {
+    border: 2px solid #ffd700;
+    background: rgba(255, 255, 255, 0.8);
+  }
+
+  .form-group .submit-btn {
+    grid-column: 1 / -1;
+    margin-top: 20px;
+    padding: 12px;
+    border: none;
+    border-radius: 30px;
+    background-color: #ffd700;
+    color: #000;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
+
+  .form-group .submit-btn:hover {
+    background-color: #e6c200;
+    transform: scale(1.03);
+  }
+
+  @media (max-width: 600px) {
+    .form-group .form-wrapper {
+      padding: 20px;
+    }
+
+    .form-group .form-wrapper h2 {
+      font-size: 22px;
+    }
+
+    .form-group input {
+      font-size: 14px;
+    }
+  }
+  .form-group img{
+    height: 50px;
+    width: 70px;
+    margin-left: 200px;
+    margin-top: -60px;
+  }
+
+
+  /* -----------------admin profile------------- */
+  
+    .profile-card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      max-width: 100%;
+      width: 100%;
+      transition: 0.3s;
+    }
+
+    .profile-card .profile-header {
+      background: linear-gradient(to right, #3c3d3d, #64718d);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .profile-card .profile-header img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 4px solid #fff;
+      margin-top: -80px;
+      background-color: white;
+    }
+
+    .profile-card .profile-header h2 {
+      margin-top: 15px;
+      font-weight: 700;
+    }
+
+    .profile-card .profile-header p {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .profile-card .profile-body {
+      padding: 30px;
+    }
+
+    .profile-card .profile-body h5 {
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .profile-card .profile-body .info-item {
+      margin-bottom: 15px;
+    }
+
+    .profile-card .profile-body .info-item i {
+      color: #36d1dc;
+      margin-right: 10px;
+    }
+
+    .profile-card .btn-edit {
+      background-color: #ffd700;
+      border: none;
+      color: black;
+      font-weight: 600;
+      padding: 8px 20px;
+      border-radius: 25px;
+      transition: 0.3s;
+    }
+
+    .profile-card .btn-edit:hover {
+      background-color: #e6c200;
+    }
+
+    @media (max-width: 768px) {
+      .profile-card .profile-header {
+        padding: 20px;
+      }
+      .profile-card .profile-body {
+        padding: 20px;
+      }
+    }
+  
+    /* ------------ file table --------------- */
+    
+  
+  .table-wrapper {
+    max-height: 500px;
+    overflow-y: auto;
+    border: 1px solid #dee2e6;
+  }
+
+  .table img {
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .table thead th {
+    position: sticky;
+    top: 0;
+    background-color: #3f5060;
+    color: #fff;
+    z-index: 10;
+  }
+
+  .table td,
+  .table th {
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+
+  .action-btns .btn {
+    margin: 2px;
+  }
+
+  /* ======== Small On/Off Button ========= */
+  .statusButton .switch {
+    font-size: 12px;
+    position: relative;
+    display: inline-block;
+    width: 2.8em;
+    height: 1.4em;
+    vertical-align: middle;
+  }
+
+  .statusButton .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .statusButton .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: red;
+    border: 1px solid red;
+    transition: .4s;
+    border-radius: 30px;
+  }
+
+  .statusButton .slider:before {
+    position: absolute;
+    content: "";
+    height: 1em;
+    width: 1em;
+    border-radius: 20px;
+    left: 0.25em;
+    bottom: 0.2em;
+    background-color: #adb5bd;
+    transition: .4s;
+  }
+
+  .statusButton input:checked + .slider {
+    background-color: green;
+    border: 1px solid green;
+  }
+
+  .statusButton input:checked + .slider:before {
+    transform: translateX(1.2em);
+    background-color: #fff;
+  }
+
+  /* Search bar */
+  .search-box {
+    max-width: 300px;
+    margin-bottom: 15px;
+    float: right;
+  }
+
+
+  /* =============contact responses page========= */
+  
+  
+    body {
+      background-color: #f0f2f5;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .admin-container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 40px 15px;
+    }
+
+    .card-response {
+      border: none;
+      border-radius: 12px;
+      transition: all 0.3s ease-in-out;
+      background: linear-gradient(145deg, #ffffff, #f7f9fb);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+    }
+
+    .card-response:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+      background-color: #343a40;
+      color: white;
+      font-size: 18px;
+      font-weight: 500;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+    }
+
+    .delete-icon {
+      color: #dc3545;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .delete-icon:hover {
+      color: #a71d2a;
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+
+    .card-body p {
+      margin-bottom: 10px;
+    }
+
+    .card-body p strong {
+      color: #343a40;
+    }
+
+    .message-box {
+      background-color: #f8f9fa;
+      padding: 10px 15px;
+      border-left: 4px solid #0d6efd;
+      border-radius: 6px;
+      font-style: italic;
+      color: #333;
+    }
+
+    .print-btn {
+      float: right;
+      margin-bottom: 25px;
+    }
+
+    .print-heading {
+      display: none;
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 26px;
+      font-weight: bold;
+      color: #343a40;
+    }
+
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #printable, #printable * {
+        visibility: visible;
+      }
+      #printable {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+      }
+      .print-btn,
+      .delete-icon {
+        display: none !important;
+      }
+      .print-heading {
+        display: block;
+      }
+    }
+  
+
+    /* =====================Admin Login page============ */
+    

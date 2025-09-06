@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PD Graphics</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+<link href="../../user/css/style.css" rel="stylesheet">
+</head>
+<body>
+ <div id="loader" class="loader">
+    <div class="dots-loader">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+  <section class="nav-sec">
+<nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+  <div class="container-fluid px-3 px-lg-5">
+    <a class="navbar-brand" href="#">
+      <img src="/admin/uploads/<%=websiteInfo[0].admin_logo%>">
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+      <i class="bi bi-list"></i>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" id="home_page_btn" href="/">
+            <i class="bi bi-house-door-fill me-1"></i>Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/shop" id="shop_page_btn">
+            <i class="bi bi-shop me-1"></i>Shop
+          </a>
+        </li>
+        <li class="nav-item">
+          <!-- <div class="select text-white">
+            <div class="selected" data-default="" data-one="Social Media Templates" data-two="Business Cards" data-three="Logos / Flyers / Banners">
+              <i class="bi bi-grid-fill me-1"></i>
+              Categories
+              <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512" class="arrow">
+                <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
+              </svg>
+            </div>
+            <div class="options">
+              <div><input id="all" name="option" type="radio" checked /><label class="option" for="all" data-txt="All Categories"></label></div>
+              <div><input id="option-1" name="option" type="radio" /><label class="option" for="option-1" data-txt="Social Media Templates"></label></div>
+              <div><input id="option-2" name="option" type="radio" /><label class="option" for="option-2" data-txt="Business Cards"></label></div>
+              <div><input id="option-3" name="option" type="radio" /><label class="option" for="option-3" data-txt="Logos / Flyers / Banners"></label></div>
+            </div>
+          </div> -->
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/contact" id="contact_page_btn">
+            <i class="bi bi-telephone-fill me-1"></i>Contact
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/register" id="register_page_btn">
+            <i class="bi bi-person-plus-fill me-1"></i>Register
+          </a>
+        </li>
+      </ul>
+
+      <!-- Search Box -->
+      <form class="d-flex search-box mx-auto" style="max-width: 400px;" action="/search" method="get">
+        <input class="form-control form-control-sm me-2" type="search" placeholder="Search templates, categories...">
+        <button class="btn btn-warning btn-sm" type="submit">
+          <i class="bi bi-search"></i>
+        </button>
+      </form>
+
+      <!-- Icons Right -->
+      <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
+        <!-- Cart -->
+        <a href="/user_cart" class="position-relative text-white">
+          <i class="bi bi-cart-fill"></i>
+          <span class="badge position-absolute top-0 start-100 translate-middle rounded-pill bg-danger">
+            <%=cartCount%>
+</span>
+        </a>
+
+        <!-- Account Dropdown -->
+        <div class="profile-dropdown">
+          <div class="profile-selected">
+            <i class="bi bi-person-circle"></i>Account
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="profile-arrow">
+              <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
+            </svg>
+          </div>
+
+          <div class="profile-options">
+            <a href="/user_profile" class="profile-option"><i class="bi bi-person-fill me-2"></i> Profile</a>
+            <a href="/user_setting" class="profile-option"><i class="bi bi-gear-fill me-2"></i> Settings</a>
+           <% if (userId) { %>
+    <!-- If user is logged in -->
+    <a href="/user_logout" onclick="return confirm('Logout this account')" class="profile-option">
+        <i class="bi bi-box-arrow-in-left me-2"></i> Logout
+    </a>
+<% } else { %>
+    <!-- If user is not logged in -->
+    <a href="/login" class="profile-option">
+        <i class="bi bi-box-arrow-in-right me-2"></i> Login
+    </a>
+<% } %>
+            <a href="#" class="profile-option"><i class="bi bi-cloud-arrow-down-fill me-2"></i> Downloads</a>
+            <a href="/user_orders" class="profile-option"><i class="bi bi-bag-check-fill me-2"></i> Orders</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+  </section>
+ 
+  <script>
+			if (location.pathname == "/") {
+				document.getElementById("home_page_btn").classList.add("active");
+				
+			}
+      	if (location.pathname == "/shop") {
+				document.getElementById("shop_page_btn").classList.add("active");
+				
+			}
+      	if (location.pathname == "/register") {
+				document.getElementById("register_page_btn").classList.add("active");
+				
+			}
+			if (location.pathname == "/contact") {
+				document.getElementById("contact_page_btn").classList.add("active");
+				
+			}
+		</script>

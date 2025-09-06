@@ -1,0 +1,67 @@
+<%-include("navbar.ejs")%>
+<section class="register-sec mt-5">
+  <div class="register-card mt-5 mb-5">
+    <h2>Create New Account</h2>
+    <form id="registerForm" action="/register_user" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+      <div class="form-group">
+        <i class="bi bi-person-fill input-icon-left"></i>
+        <input type="text" placeholder="Username ex. abc123" name="username" minlength="5" maxlength="10" required>
+      </div>
+
+      <div class="form-group">
+        <i class="bi bi-person-badge-fill input-icon-left"></i>
+        <input type="text" placeholder="First Name" name="firstname" required>
+      </div>
+
+      <div class="form-group">
+        <i class="bi bi-person-badge input-icon-left"></i>
+        <input type="text" placeholder="Last Name" name="lastname" required>
+      </div>
+
+      <div class="form-group">
+        <i class="bi bi-envelope-fill input-icon-left"></i>
+        <input type="email" placeholder="Email Address" name="email" required>
+      </div>
+
+      <div class="form-group">
+        <i class="bi bi-lock-fill input-icon-left"></i>
+        <input type="password" placeholder="Password" name="password" id="password" minlength="6" required>
+        <i class="bi bi-eye-slash-fill toggle-password" onclick="togglePassword('password', this)"></i>
+      </div>
+
+      <div class="form-group">
+        <i class="bi bi-lock-fill input-icon-left"></i>
+        <input type="password" placeholder="Confirm Password" name="confirmpassword" id="confirmpassword" required>
+        <i class="bi bi-eye-slash-fill toggle-password" onclick="togglePassword('confirmpassword', this)"></i>
+      </div>
+
+      <button type="submit" class="register-btn">Register</button>
+
+      <div class="login-link">
+        <span class="text-white">Already have an account? <a href="/login">Login here</a></span>
+      </div>
+    </form>
+  </div>
+</section>
+  <script>
+    function togglePassword(fieldId, icon) {
+      const field = document.getElementById(fieldId);
+      const isPassword = field.type === "password";
+      field.type = isPassword ? "text" : "password";
+      icon.classList.toggle("bi-eye-fill");
+      icon.classList.toggle("bi-eye-slash-fill");
+    }
+
+    function validateForm() {
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirmpassword").value;
+      if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return false;
+      }
+      return true;
+    }
+  </script>
+
+
+<%-include("footer.ejs")%>

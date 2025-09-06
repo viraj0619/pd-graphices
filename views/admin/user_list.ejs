@@ -1,0 +1,99 @@
+<%- include('navbar.ejs') %>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+<div class="container my-4">
+    <!-- Search Input -->
+    <div class="row mb-3">
+        <div>
+            <input type="text" class="form-control search-box" id="fileSearch" placeholder="Search by name, mobile, username..." onkeyup="searchTable()">
+        </div>
+    </div>
+
+    <h2 class="mb-4 text-center">User Accounts</h2>
+
+    <div class="table-responsive table-wrapper">
+        <table class="table table-bordered table-hover align-middle text-center" id="filesTable">
+            <thead class="table-dark">
+                <tr>
+                    <th>No.</th>
+                    <th>Action</th>
+                    <th>User Name</th>
+                    <th>Full Name</th>
+                    <th>User Email</th>
+                    <th>Password</th>
+                    <th>Mobile No</th>
+                    <th>Register Date</th>
+                    <th>User Photo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (let i = 0; i < userData.length; i++) { %>
+                <tr>
+                    <td><%= ((currentPage - 1) * 1) + (i + 1) %>.</td>
+                    <td class="action-btns">
+                        <a href="/admin/delete_account/<%= userData[i].user_id %>" class="btn btn-sm btn-danger" title="Delete" onclick="return confirm('Delete this user account')">
+                            <i class="bi bi-trash3"></i>
+                        </a>
+                    </td>
+                    <td><%= userData[i].username %></td>
+                    <td><%= userData[i].firstname %> <%= userData[i].lastname %></td>
+                    <td><%= userData[i].email %></td>
+                    <td><%= userData[i].password %></td>
+                    <td><%= userData[i].user_mobile %></td>
+                    <td><%= userData[i].registerDate %></td>
+                    <td>
+                        <img src="<%= userData[i].user_photo %>" width="60" height="60" class="img-thumbnail">
+                    </td>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ✅ Pagination -->
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center">
+            <!-- Previous Button -->
+            <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+                <a class="page-link" href="/admin/user_list?page=<%= currentPage - 1 %>">Previous</a>
+            </li>
+
+            <% for (let i = 1; i <= totalPages; i++) { %>
+                <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                    <a class="page-link" href="/admin/user_list?page=<%= i %>"><%= i %></a>
+                </li>
+            <% } %>
+
+            <!-- Next Button -->
+            <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
+                <a class="page-link" href="/admin/user_list?page=<%= currentPage + 1 %>">Next</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<script>
+function searchTable() {
+    const input = document.getElementById("fileSearch").value.toLowerCase();
+    const table = document.getElementById("filesTable");
+    const rows = table.getElementsByTagName("tr");
+
+    for (let i = 1; i < rows.length; i++) {
+        let cells = rows[i].getElementsByTagName("td");
+        let matched = false;
+
+        for (let j = 0; j < cells.length; j++) {
+            const text = cells[j].innerText.toLowerCase();
+            if (text.includes(input)) {
+                matched = true;
+                break;
+            }
+        }
+
+        rows[i].style.display = matched ? "" : "none";
+    }
+}
+</script>
+
+<%- include('footer.ejs') %>

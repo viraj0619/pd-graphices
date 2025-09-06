@@ -1,0 +1,95 @@
+<%- include('navbar.ejs') %>
+
+<div class="container profile_sec">
+  <!-- Welcome -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="mb-0">👋 Welcome, <strong><%=userData.username%></strong></h5>
+  </div>
+
+  <!-- Profile Header -->
+  <div class="profile-header text-center position-relative">
+    <label for="" class="position-relative d-inline-block profile-img-wrapper">
+      <img id="previewImage" src="<%= userData.user_photo || '/user/images/profile-image.png' %>" alt="User" class="profile-img">
+      <div class="profile-actions">
+        <label for="profileUpload">
+        <i class="bi bi-pencil-fill text-primary edit-icon" title="Edit"></i></label>
+        <i class="bi bi-trash-fill text-danger delete-icon" title="Delete" onclick="deleteProfileImage()"></i>
+      </div>
+    </label>
+    <input type="file" id="profileUpload" name="profile_photo" accept="image/*" style="display: none;">
+    
+    <h4><%=userData.firstname%> <%=userData.lastname%></h4>
+    <div class="membership">PD Graphics Member since <%=userData.registerDate%></div>
+  </div>
+
+  <!-- Menu Card -->
+  <div class="menu-card">
+    <ul class="list-group bg-white rounded shadow-sm">
+     <a href="/user_orders"> <li class="list-group-item"><i class="bi bi-bag-fill"></i><div class="text">My Orders</div><i class="bi bi-chevron-right"></i></li></a>
+     <a href="/user_cart"><li class="list-group-item"><i class="bi bi-cart-fill"></i><div class="text">My Cart</div><i class="bi bi-chevron-right"></i></li></a>
+      <a href="/user_details"><li class="list-group-item"><i class="bi bi-person-vcard-fill"></i><div class="text">Personal Details</div><i class="bi bi-chevron-right"></i></li></a>
+      <li class="list-group-item"><i class="bi bi-download"></i><div class="text">Downloads</div><i class="bi bi-chevron-right"></i></li>
+      <a href="user_setting"><li class="list-group-item"><i class="bi bi-gear-fill"></i><div class="text">Account Settings</div><i class="bi bi-chevron-right"></i></li></a>
+    </ul>
+  </div>
+
+  <!-- Logout -->
+  <a href="/user_logout" onclick="return confirm('Logout this Account')" class="logout-btn mt-4 d-block text-center text-decoration-none">
+    <i class="bi bi-box-arrow-left me-1"></i> Logout
+  </a>
+</div>
+
+<!-- jQuery CDN -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+  $("#profileUpload").on("change", function () {
+    const file = this.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append("profile_photo", file); // ✅ This name must match server-side
+
+      $.ajax({
+        url: "/upload_profile_image",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (res) {
+          if (res.imagePath) {
+            $("#previewImage").attr("src", res.imagePath);
+            alert("Profile photo updated successfully");
+          } else {
+            alert("Upload failed");
+          }
+        },
+        error: function () {
+          alert("Upload error");
+        }
+      });
+    }
+  });
+
+  function deleteProfileImage() {
+    if (confirm("Are you sure you want to delete your profile photo?")) {
+      $.ajax({
+        url: "/delete_profile_image",
+        type: "POST",
+        success: function (res) {
+          if (res.success) {
+            $("#previewImage").attr("src", "/user/images/profile-image.png");
+            alert("Profile photo deleted.");
+          } else {
+            alert("Delete failed.");
+          }
+        },
+        error: function () {
+          alert("Server error.");
+        }
+      });
+    }
+  }
+</script>
+
+
+<%- include('footer.ejs') %>
